@@ -1,22 +1,20 @@
-/* General Styles */
 body {
-    background: rgb(111, 208, 224);
-    background: linear-gradient(0deg,rgb(111, 208, 224) 0%, rgb(171, 228, 167) 100%);
-    font-family: 'Open Sans', sans-serif;
+    background: #fff;
+    font-family: 'Libre Caslon Display', serif;
     text-align: center;
     min-height: 100vh;
 }
 
 h1 {
     margin: 0;
-    font-family: 'Frijole', cursive;
+    font-family: 'Hanalei', cursive;
     font-size: 3em;
     font-weight: 400;
 }
 
 h2,
 h3 {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Libre Caslon Display', serif;
 }
 
 @media (min-width: 650px) {
@@ -129,7 +127,7 @@ form p {
     margin-bottom: 0.3em;
     font-size: 1.3em;
     font-weight: 600;
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Libre Caslon Display', serif;
 }
 
 input {

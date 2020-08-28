@@ -123,7 +123,7 @@ const createHuman = function( you ) {
     you.name = entries.name;
     you.weight = parseInt(entries.weight);
     you.height = parseInt(entries.feet) * 12 + parseInt(entries.inches);
-    you.diet = entries.dies;
+    you.diet = entries.diet;
   })(you);
 };
 

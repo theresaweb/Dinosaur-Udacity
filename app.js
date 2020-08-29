@@ -81,9 +81,6 @@ function randomizeDinos(dinos) {
   }
   return dinos;
 }
-
-
-
 // Create Dino Constructor
 function Dino( species, weight, height, diet, where, when, fact ) {
   this.species = species;
@@ -94,23 +91,14 @@ function Dino( species, weight, height, diet, where, when, fact ) {
   this.when = when;
   this.fact = fact;
 }
-
-// // Create Human Object
-// function Human( name, weight, feet, inches, diet ) {
-//   this.name = name;
-//   this.weight = weight;
-//   this.height = feet * 12 + inches;
-//   this.diet = diet;
-// }
-// Use IIFE to get human data from form
+// Create Human Object
 function Human ( name, weight, feet, inches, diet ) {
     this.name = name;
     this.weight = weight;
     this.height = feet * 12 + inches;
     this.diet = diet;
 };
-
-
+// Use IIFE to get human data from form
 const createHuman = function( you ) {
   (function(you) {
     const form = document.getElementById('dino-compare');
@@ -127,23 +115,47 @@ const createHuman = function( you ) {
   })(you);
 };
 
-
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
-
-
+function compareWeight( dino, human ) {
+  let comparison = human.weight / dino.weight;
+  return `This dino is ${comparison.toFixed(2)} times heavier than ${human.name}`;
+}
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
-
-
+function compareHeight( dino, human ) {
+  let comparison = human.height / dino.height;
+  return `This dino is ${comparison.toFixed(2)} times taller than ${human.name}`;
+}
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
-
-
+function compareDiet( dino, human ) {
+  if ( human.diet === dino.diet ) {
+    return `You have the same diet as the ${dino.species}`;
+  }
+  return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
+}
 // Generate Tiles for each Dino in Array
-
+function generateTiles(human,dinos) {
+  let newContent = {};
+  console.log('dinos.length',dinos.length);
+  for (let x = 0; x<=8; x++) {
+    let newTile = document.createElement("div");
+    if ( x === 4 ) {
+      newContent = document.createTextNode(human.name);
+      console.log('ty;e',typeof(newContent));
+    } else {
+      newContent = document.createTextNode("Hi there and greetings!");
+    }
+    newTile.appendChild(newContent);
+    addTile(newTile);
+  }
+}
 // Add tiles to DOM
-
+function addTile(tile) {
+  const grid = document.getElementById('grid');
+  grid.appendChild(tile);
+}
 // Remove form from screen
 
 
@@ -157,4 +169,5 @@ submit.addEventListener('click', event => {
   console.log('you',you);
   let randomDinos = randomizeDinos(dinos);
   console.log('randos',randomDinos);
+  generateTiles(you,randomDinos);
 });

@@ -143,8 +143,7 @@ function cardInfo( dino, human ) {
     }
     return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
   };
-  return {
-    compareDisplay: function() {
+  let compareDisplay = function() {
       if (dino.species === 'Pigeon') {
         return pigeonFact;
       }
@@ -171,6 +170,8 @@ function cardInfo( dino, human ) {
       }
       return compare;
     }
+    return {
+      compareDisplay: compareDisplay()
   };
 }
 
@@ -197,7 +198,8 @@ function generateTiles(human,dinos) {
     let compareContent = document.createElement("p");
     compareContent.classList.add('compare');
     let cardText = cardInfo( dinos[x], human);
-    let compare = document.createTextNode(cardText.compareDisplay());
+
+    let compare = document.createTextNode(cardText.compareDisplay);
 
     compareContent.appendChild(compare);
     newTile.appendChild(img);

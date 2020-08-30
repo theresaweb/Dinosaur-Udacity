@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dinographic</title>
-    <link href="https://fonts.googleapis.com/css2?family=Hanalei&family=Libre+Caslon+Display&family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanalei&family=Luckiest+Guy&family=Noto+Serif&display=swap" rel="stylesheet">
     <!-- Normalize browser styles -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
@@ -16,24 +16,25 @@
     <header>
         <h1>Dinosaurs</h1>
         <h3>How do you compare?</h3>
+        <div id="btn" class="refresh">Refresh</div>
     </header>
     <!-- Form to get user input -->
     <form id="dino-compare">
         <div class="form-container">
             <p>Name:</p>
-            <input id="name" class="form-field__full" type="name" name="name" required="required">
+            <input id="name" class="form-field__full" type="name" name="name" required="required" value="Mary Rose">
             <p>Height</p>
-            <label>Feet: <input id="feet" class="form-field__short" type="number" name="feet" required="required" value="0"></label>
+            <label>Feet: <input id="feet" class="form-field__short" type="number" name="feet" required="required" value="5"></label>
             <label>inches: <input id="inches" class="form-field__short" type="number" name="inches" value="0"></label>
             <p>Weight:</p>
-            <label><input id="weight" class="form-field__full" type="number" name="weight" required="required">lbs</label>
+            <label><input id="weight" class="form-field__full" type="number" name="weight" required="required" value="120">lbs</label>
             <p>Diet:</p>
             <select id="diet" class="form-field__full" name="diet" required="required">
                 <option>Herbivore</option>
                 <option>Omnivore</option>
                 <option>Carnivore</option>
             </select>
-            <div id="btn">Compare Me!</div>
+            <div id="btn" class="showGrid">Compare Me!</div>
         </div>
     </form>
     <!-- .grid to attach tiles to -->

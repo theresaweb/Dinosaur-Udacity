@@ -72,6 +72,11 @@ const dinos = [
         "fact": "All birds are living dinosaurs."
     }
 ];
+
+const refreshBtn = document.querySelector('.refresh');
+
+const submit = document.querySelector('.showGrid');
+
 function randomizeDinos(dinos) {
   for (i = dinos.length - 1; i > 0; i -= 1) {
     j = Math.floor(Math.random() * (i + 1))
@@ -118,7 +123,7 @@ const createHuman = function( you ) {
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 function compareWeight( dino, human ) {
-  let comparison = human.weight / dino.weight;
+  let comparison = dino.weight /human.weight;
   return `This dino is ${comparison.toFixed(2)} times heavier than ${human.name}`;
 }
 // Create Dino Compare Method 2
@@ -135,21 +140,79 @@ function compareDiet( dino, human ) {
   }
   return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
 }
+
+function pigeonFact() {
+  return document.createTextNode('All birds are dinosaurs.');
+}
+
 // Generate Tiles for each Dino in Array
 function generateTiles(human,dinos) {
-  let newContent = {};
   console.log('dinos.length',dinos.length);
-  for (let x = 0; x<=8; x++) {
+  for (let x = 0; x<=7; x++) {
+    //create the child div
     let newTile = document.createElement("div");
-    if ( x === 4 ) {
-      newContent = document.createTextNode(human.name);
-      console.log('ty;e',typeof(newContent));
-    } else {
-      newContent = document.createTextNode("Hi there and greetings!");
+    newTile.classList.add('grid-item');
+    //add the image
+    let img = document.createElement('img');
+    img.setAttribute('src',`images/${dinos[x].species}.png`);
+    // create the outer p
+    let outer = document.createElement("p");
+    outer.classList.add('outer');
+    // create the inner p content
+    let newContent = document.createElement("p");
+    newContent.classList.add('species');
+    let content = document.createTextNode(dinos[x].species);
+    newContent.appendChild(content);
+    //compare
+    let compareContent = document.createElement("p");
+    compareContent.classList.add('compare');
+    let compareValue = Math.floor(Math.random() * 5);
+    let compare = {};
+    let isPigeon = dinos[x].species === 'Pigeon';
+    switch (compareValue) {
+      case 0:
+        compare = isPigeon ? pigeonFact() : document.createTextNode(compareWeight(dinos[x],human));
+        break;
+      case 1:
+        compare = isPigeon ? pigeonFact() : document.createTextNode(compareHeight(dinos[x],human));
+        break;
+      case 2:
+        compare = isPigeon ? pigeonFact() : document.createTextNode(compareDiet(dinos[x],human));
+        break;
+      case 3:
+        compare = isPigeon ? pigeonFact() : document.createTextNode(`This species was found in ${dinos[x].where}`);
+        break;
+      case 4:
+        compare = isPigeon ? pigeonFact() : document.createTextNode(`This species lived in the ${dinos[x].when} era`);
+      case 5:
+        compare = isPigeon ? pigeonFact() : document.createTextNode(dinos[x].fact);
+      default:
+        compare = isPigeon ? pigeonFact() : document.createTextNode(dinos[x].fact);
     }
-    newTile.appendChild(newContent);
+    compareContent.appendChild(compare);
+    newTile.appendChild(img);
+    outer.appendChild(newContent);
+    outer.appendChild(compareContent);
+    newTile.appendChild(outer);
+    if ( x === 4 ) {
+      //put human in the middle
+      let humanTile = document.createElement("div");
+      humanTile.classList.add('grid-item');
+      // create outer p
+      let outer = document.createElement("p");
+      outer.classList.add('outer');
+      // add inner p content
+      let newContent = document.createElement("p");
+      newContent.classList.add('species');
+      let content = document.createTextNode(human.name);
+      newContent.appendChild(content);
+      outer.appendChild(newContent);
+      humanTile.appendChild(outer);
+      addTile(humanTile);
+    }
     addTile(newTile);
   }
+  refreshBtn.style.display = 'block';
 }
 // Add tiles to DOM
 function addTile(tile) {
@@ -157,17 +220,21 @@ function addTile(tile) {
   grid.appendChild(tile);
 }
 // Remove form from screen
-
+function removeForm() {
+  document.getElementById('dino-compare').style.display = 'none';
+}
 
 // On button click, prepare and display infographic
-const submit = document.getElementById('btn');
 
 submit.addEventListener('click', event => {
   event.preventDefault();
   let you = new Human();
   createHuman(you);
-  console.log('you',you);
   let randomDinos = randomizeDinos(dinos);
-  console.log('randos',randomDinos);
   generateTiles(you,randomDinos);
+  removeForm();
 });
+
+refreshBtn.addEventListener('click', event => {
+  location.reload();
+})

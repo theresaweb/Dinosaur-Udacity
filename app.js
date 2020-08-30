@@ -87,14 +87,14 @@ function randomizeDinos(dinos) {
   return dinos;
 }
 // Create Dino Constructor
-function Dino( species, weight, height, diet, where, when, fact ) {
-  this.species = species;
-  this.weight = weight;
-  this.height = height;
-  this.diet = diet;
-  this.where = where;
-  this.when = when;
-  this.fact = fact;
+function Dino( dino) {
+  this.species = dino.species;
+  this.weight = dino.weight;
+  this.height = dino.height;
+  this.diet = dino.diet;
+  this.where = dino.where;
+  this.when = dino.when;
+  this.fact = dino.fact;
 }
 // Create Human Object
 function Human ( name, weight, feet, inches, diet ) {
@@ -103,6 +103,7 @@ function Human ( name, weight, feet, inches, diet ) {
     this.height = feet * 12 + inches;
     this.diet = diet;
 };
+
 // Use IIFE to get human data from form
 const createHuman = function( you ) {
   (function(you) {
@@ -122,58 +123,61 @@ const createHuman = function( you ) {
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
-function compareWeight( dino, human ) {
-  let comparison = dino.weight /human.weight;
-  return `This dino is ${comparison.toFixed(2)} times heavier than ${human.name}`;
-}
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
-function compareHeight( dino, human ) {
-  let comparison = human.height / dino.height;
-  return `This dino is ${comparison.toFixed(2)} times taller than ${human.name}`;
-}
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
-function compareDiet( dino, human ) {
-  if ( human.diet === dino.diet ) {
-    return `You have the same diet as the ${dino.species}`;
-  }
-  return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
-}
-
-function compareDisplay(dino, human) {
-  let compareValue = Math.floor(Math.random() * 5);
-  let isPigeon = dino.species === 'Pigeon';
-  switch (compareValue) {
-    case 0:
-      compare = isPigeon ? pigeonFact() : compareWeight(dino,human);
-      break;
-    case 1:
-      compare = isPigeon ? pigeonFact() : compareHeight(dino,human);
-      break;
-    case 2:
-      compare = isPigeon ? pigeonFact() : compareDiet(dino,human);
-      break;
-    case 3:
-      compare = isPigeon ? pigeonFact() : `This species was found in ${dino.where}`;
-      break;
-    case 4:
-      compare = isPigeon ? pigeonFact() : `This species lived in the ${dino.when} era`;
-    case 5:
-      compare = isPigeon ? pigeonFact() : dino.fact;
-    default:
-      compare = isPigeon ? pigeonFact() : dino.fact;
-  }
-  return compare;
-}
-function pigeonFact() {
-  return 'All birds are dinosaurs.';
+function cardInfo( dino, human ) {
+  let pigeonFact = 'All birds are dinosaurs.';
+  let compareWeight = function () {
+    let comparison = dino.weight / human.weight;
+    return `This dino is ${comparison.toFixed(2)} times heavier than ${human.name}`;
+  };
+  let compareHeight = function() {
+    let comparison = human.height / dino.height;
+    return `This dino is ${comparison.toFixed(2)} times taller than ${human.name}`;
+  };
+  let compareDiet = function() {
+    if ( human.diet === dino.diet ) {
+      return `You have the same diet as the ${dino.species}`;
+    }
+    return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
+  };
+  return {
+    compareDisplay: function() {
+      if (dino.species === 'Pigeon') {
+        return pigeonFact;
+      }
+      let compareValue = Math.floor(Math.random() * 5);
+      switch (compareValue) {
+        case 0:
+          compare = compareWeight();
+          break;
+        case 1:
+          compare = compareHeight();
+          break;
+        case 2:
+          compare = compareDiet();
+          break;
+        case 3:
+          compare = `This species was found in ${dino.where}`;
+          break;
+        case 4:
+          compare = `This species lived in the ${dino.when} era`;
+        case 5:
+          compare = dino.fact;
+        default:
+          compare = dino.fact;
+      }
+      return compare;
+    }
+  };
 }
 
 // Generate Tiles for each Dino in Array
 function generateTiles(human,dinos) {
   for (let x = 0; x<=7; x++) {
-    let thisDino = new Dino( dinos[x].species, dinos[x].weight, dinos[x].height, dinos[x].diet, dinos[x].where, dinos[x].when, dinos[x].fact );
+    let thisDino = new Dino( dinos[x] );
 
     //create the child div
     let newTile = document.createElement("div");
@@ -192,8 +196,8 @@ function generateTiles(human,dinos) {
     //compare
     let compareContent = document.createElement("p");
     compareContent.classList.add('compare');
-
-    let compare = document.createTextNode(compareDisplay(thisDino, human));
+    let cardText = cardInfo( dinos[x], human);
+    let compare = document.createTextNode(cardText.compareDisplay());
 
     compareContent.appendChild(compare);
     newTile.appendChild(img);

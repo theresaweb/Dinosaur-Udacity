@@ -56,7 +56,23 @@ p {
     box-sizing: border-box;
     width: 100%;
 }
-
+.allFacts {
+    display: none;
+    text-align: left;
+}
+.factoid {
+  margin: 5px 0;
+  font-size: 18px !important;
+}
+.grid-item:hover .allFacts {
+    display:block;
+}
+.grid-item:hover .compare {
+    display:none;
+}
+.grid-item:hover p.outer {
+  height: 100%;
+}
 .grid-item:nth-child(1){
     background: #009687f5;
 }

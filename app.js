@@ -197,7 +197,8 @@ function cardInfo( dino, human ) {
 */
 function generateTiles(human,dinos) {
   for (let x = 0; x<=7; x++) {
-    const thisDino = new Dino( dinos[x] );
+    const currentDino = dinos[x];
+    const thisDino = new Dino( currentDino );
 
     //create the child div
     const newTile = document.createElement('div');
@@ -216,16 +217,19 @@ function generateTiles(human,dinos) {
     //compare
     const compareContent = document.createElement('p');
     compareContent.classList.add('compare');
-    const cardText = cardInfo( dinos[x], human);
-
+    const cardText = cardInfo( thisDino, human);
     const compare = document.createTextNode(cardText.compareDisplay);
-
     compareContent.appendChild(compare);
+    // a div to hold all facts to show on hover
+    const allFacts = getAllFacts(thisDino);
+
     newTile.appendChild(img);
     outer.appendChild(newContent);
     outer.appendChild(compareContent);
+    outer.appendChild(allFacts);
     newTile.appendChild(outer);
     if ( x === 4 ) {
+      console.log(human);
       //put human in the middle
       const humanTile = document.createElement('div');
       humanTile.classList.add('grid-item');
@@ -237,7 +241,10 @@ function generateTiles(human,dinos) {
       newContent.classList.add('species');
       const content = document.createTextNode(human.name);
       newContent.appendChild(content);
+      // a div to hold all facts to show on hover
+      const allFacts = getAllFacts( human );
       outer.appendChild(newContent);
+      outer.appendChild(allFacts);
       humanTile.appendChild(outer);
       addTile(humanTile);
     }
@@ -253,6 +260,34 @@ function generateTiles(human,dinos) {
 function addTile(tile) {
   const grid = document.getElementById('grid');
   grid.appendChild(tile);
+}
+// Get All Facts
+/**
+* @description get all facts to show on hover
+* @param {object} object
+*/
+function getAllFacts( object ) {
+  // a div to hold all facts to show on hover
+  const allFacts = document.createElement('p');
+  allFacts.classList.add('allFacts');
+  const facts = Object.keys(object);
+  for (const fact of facts) {
+    let thisFact = object[fact];
+    switch (fact) {
+      case 'weight':
+        thisFact += ' lbs';
+        break;
+      case 'height':
+        thisFact += ' in';
+        break;
+    }
+    const factContent = document.createElement('p');
+    factContent.classList.add('factoid');
+    const thisText = document.createTextNode(`${fact}: ${thisFact}`);
+    factContent.appendChild(thisText);
+    allFacts.appendChild(factContent)
+  }
+  return allFacts;
 }
 // Remove form from screen
 /**

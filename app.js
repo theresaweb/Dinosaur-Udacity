@@ -145,11 +145,19 @@ function cardInfo( dino, human ) {
   const pigeonFact = 'All birds are dinosaurs.';
   const compareWeight = function () {
     const comparison = dino.weight / human.weight;
-    return `This dino is ${comparison.toFixed(2)} times heavier than ${human.name}`;
+    if ( comparison > 1 ) {
+      return `This dino is ${comparison.toFixed(2)} times heavier than ${human.name}`;
+    } else {
+      return `${human.name} is ${comparison.toFixed(2)} times heavier than this Dino.`;
+    }
   };
   const compareHeight = function() {
-    const comparison = human.height / dino.height;
-    return `This dino is ${comparison.toFixed(2)} times taller than ${human.name}`;
+    const comparison = dino.height / human.height;
+    if ( comparison > 1 ) {
+      return `This dino is ${comparison.toFixed(2)} times taller than ${human.name}`;
+    } else {
+      return `${human.name} is ${comparison.toFixed(2)} times taller than this Dino.`;
+    }
   };
   const compareDiet = function() {
     if ( human.diet === dino.diet ) {
@@ -274,11 +282,14 @@ function getAllFacts( object ) {
     let thisFact = object[fact];
     switch (fact) {
       case 'weight':
-        thisFact += ' lbs';
+        thisFact = thisFact.toLocaleString()+' lbs.';
         break;
       case 'height':
-        thisFact += ' in';
+        thisFact = thisFact.toLocaleString()+' in.';
         break;
+    }
+    if ( fact === 'species' || fact === 'name' ) {
+      continue;
     }
     const factContent = document.createElement('p');
     factContent.classList.add('factoid');

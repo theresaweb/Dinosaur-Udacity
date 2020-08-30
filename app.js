@@ -82,7 +82,7 @@ const submit = document.querySelector('.showGrid');
 * @param {array} dinos array from dino.json
 * @returns {array} randomized array of dino objects
 */
-function randomizeDinos(dinos) {
+const randomizeDinos = dinos => {
   for (i = dinos.length - 1; i > 0; i -= 1) {
     j = Math.floor(Math.random() * (i + 1));
     temp = dinos[i];
@@ -119,7 +119,7 @@ function Human () {
 }
 
 // Use IIFE to get human data from form
-const createHuman = function( you ) {
+const createHuman = you => {
   (function(you) {
     const form = document.getElementById('dino-compare');
     const data = new FormData(form);
@@ -133,7 +133,7 @@ const createHuman = function( you ) {
     you.height = parseInt(entries.feet) * 12 + parseInt(entries.inches);
     you.diet = entries.diet;
   })(you);
-};
+}
 
 /**
 * @description Determines info to be shown
@@ -141,7 +141,8 @@ const createHuman = function( you ) {
 * @param {object} human
 * @returns {string} return from compareDisplay
 */
-function cardInfo( dino, human ) {
+
+const cardInfo = ( dino, human ) => {
   const pigeonFact = 'All birds are dinosaurs.';
   const compareWeight = function () {
     const comparison = dino.weight / human.weight;
@@ -203,7 +204,7 @@ function cardInfo( dino, human ) {
 * @param {object} human
 * @param {array} dinos
 */
-function generateTiles(human,dinos) {
+const generateTiles = ( human, dinos ) => {
   for (let x = 0; x<=7; x++) {
     const currentDino = dinos[x];
     const thisDino = new Dino( currentDino );
@@ -264,7 +265,7 @@ function generateTiles(human,dinos) {
 * @description append tile to grid
 * @param {object} tile
 */
-function addTile(tile) {
+const addTile = ( tile ) => {
   const grid = document.getElementById('grid');
   grid.appendChild(tile);
 }
@@ -273,7 +274,7 @@ function addTile(tile) {
 * @description get all facts to show on hover
 * @param {object} object
 */
-function getAllFacts( object ) {
+const getAllFacts = ( object ) => {
   // a div to hold all facts to show on hover
   const allFacts = document.createElement('p');
   allFacts.classList.add('allFacts');
@@ -303,7 +304,7 @@ function getAllFacts( object ) {
 /**
 * @description hide the form
 */
-function removeForm() {
+const removeForm = () => {
   document.getElementById('dino-compare').style.display = 'none';
 }
 

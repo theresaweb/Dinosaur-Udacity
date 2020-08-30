@@ -229,7 +229,6 @@ function generateTiles(human,dinos) {
     outer.appendChild(allFacts);
     newTile.appendChild(outer);
     if ( x === 4 ) {
-      console.log(human);
       //put human in the middle
       const humanTile = document.createElement('div');
       humanTile.classList.add('grid-item');

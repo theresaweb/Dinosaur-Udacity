@@ -77,6 +77,11 @@ const refreshBtn = document.querySelector('.refresh');
 
 const submit = document.querySelector('.showGrid');
 
+/**
+* @description Randomize dinos using Fisher-Yates Shuffle
+* @param {array} dinos array from dino.json
+* @returns {array} randomized array of dino objects
+*/
 function randomizeDinos(dinos) {
   for (i = dinos.length - 1; i > 0; i -= 1) {
     j = Math.floor(Math.random() * (i + 1))
@@ -87,6 +92,11 @@ function randomizeDinos(dinos) {
   return dinos;
 }
 // Create Dino Constructor
+/**
+* @description Represents a dinosaur
+* @constructor
+* @param {object} dino - one of dinos passed from dino.json
+*/
 function Dino( dino) {
   this.species = dino.species;
   this.weight = dino.weight;
@@ -97,19 +107,23 @@ function Dino( dino) {
   this.fact = dino.fact;
 }
 // Create Human Object
-function Human ( name, weight, feet, inches, diet ) {
-    this.name = name;
-    this.weight = weight;
-    this.height = feet * 12 + inches;
-    this.diet = diet;
+/**
+* @description Represents a human
+* @constructor
+*/
+function Human () {
+    this.name = '';
+    this.weight = 0;
+    this.height = 0;
+    this.diet = '';
 };
 
 // Use IIFE to get human data from form
 const createHuman = function( you ) {
   (function(you) {
     const form = document.getElementById('dino-compare');
-    let data = new FormData(form);
-    let entries = Object.fromEntries(new FormData(form));
+    const data = new FormData(form);
+    const entries = Object.fromEntries(new FormData(form));
     //validation
     if (!(entries.name)|| !(entries.weight) || !(entries.feet) || !(entries.diet)) {
       return false;
@@ -121,33 +135,33 @@ const createHuman = function( you ) {
   })(you);
 };
 
-// Create Dino Compare Method 1
-// NOTE: Weight in JSON file is in lbs, height in inches.
-// Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
-// Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
+/**
+* @description Determines info to be shown
+* @param {object} dino
+* @param {object} human
+* @returns {string} return from compareDisplay
+*/
 function cardInfo( dino, human ) {
-  let pigeonFact = 'All birds are dinosaurs.';
-  let compareWeight = function () {
-    let comparison = dino.weight / human.weight;
+  const pigeonFact = 'All birds are dinosaurs.';
+  const compareWeight = function () {
+    const comparison = dino.weight / human.weight;
     return `This dino is ${comparison.toFixed(2)} times heavier than ${human.name}`;
   };
-  let compareHeight = function() {
-    let comparison = human.height / dino.height;
+  const compareHeight = function() {
+    const comparison = human.height / dino.height;
     return `This dino is ${comparison.toFixed(2)} times taller than ${human.name}`;
   };
-  let compareDiet = function() {
+  const compareDiet = function() {
     if ( human.diet === dino.diet ) {
       return `You have the same diet as the ${dino.species}`;
     }
     return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
   };
-  let compareDisplay = function() {
+  const compareDisplay = function() {
       if (dino.species === 'Pigeon') {
         return pigeonFact;
       }
-      let compareValue = Math.floor(Math.random() * 5);
+      const compareValue = Math.floor(Math.random() * 5);
       switch (compareValue) {
         case 0:
           compare = compareWeight();
@@ -176,30 +190,35 @@ function cardInfo( dino, human ) {
 }
 
 // Generate Tiles for each Dino in Array
+/**
+* @description generate tiles for infographic
+* @param {object} human
+* @param {array} dinos
+*/
 function generateTiles(human,dinos) {
   for (let x = 0; x<=7; x++) {
-    let thisDino = new Dino( dinos[x] );
+    const thisDino = new Dino( dinos[x] );
 
     //create the child div
-    let newTile = document.createElement("div");
+    const newTile = document.createElement('div');
     newTile.classList.add('grid-item');
     //add the image
-    let img = document.createElement('img');
+    const img = document.createElement('img');
     img.setAttribute('src',`images/${thisDino.species}.png`);
     // create the outer p
-    let outer = document.createElement("p");
+    const outer = document.createElement('p');
     outer.classList.add('outer');
     // create the inner p content
-    let newContent = document.createElement("p");
+    const newContent = document.createElement('p');
     newContent.classList.add('species');
-    let content = document.createTextNode(thisDino.species);
+    const content = document.createTextNode(thisDino.species);
     newContent.appendChild(content);
     //compare
-    let compareContent = document.createElement("p");
+    const compareContent = document.createElement('p');
     compareContent.classList.add('compare');
-    let cardText = cardInfo( dinos[x], human);
+    const cardText = cardInfo( dinos[x], human);
 
-    let compare = document.createTextNode(cardText.compareDisplay);
+    const compare = document.createTextNode(cardText.compareDisplay);
 
     compareContent.appendChild(compare);
     newTile.appendChild(img);
@@ -208,15 +227,15 @@ function generateTiles(human,dinos) {
     newTile.appendChild(outer);
     if ( x === 4 ) {
       //put human in the middle
-      let humanTile = document.createElement("div");
+      const humanTile = document.createElement('div');
       humanTile.classList.add('grid-item');
       // create outer p
-      let outer = document.createElement("p");
+      const outer = document.createElement('p');
       outer.classList.add('outer');
       // add inner p content
-      let newContent = document.createElement("p");
+      const newContent = document.createElement('p');
       newContent.classList.add('species');
-      let content = document.createTextNode(human.name);
+      const content = document.createTextNode(human.name);
       newContent.appendChild(content);
       outer.appendChild(newContent);
       humanTile.appendChild(outer);
@@ -227,11 +246,18 @@ function generateTiles(human,dinos) {
   refreshBtn.style.display = 'block';
 }
 // Add tiles to DOM
+/**
+* @description append tile to grid
+* @param {object} tile
+*/
 function addTile(tile) {
   const grid = document.getElementById('grid');
   grid.appendChild(tile);
 }
 // Remove form from screen
+/**
+* @description hide the form
+*/
 function removeForm() {
   document.getElementById('dino-compare').style.display = 'none';
 }
@@ -239,9 +265,9 @@ function removeForm() {
 // On button click, prepare and display infographic
 submit.addEventListener('click', event => {
   event.preventDefault();
-  let you = new Human();
+  const you = new Human();
   createHuman(you);
-  let randomDinos = randomizeDinos(dinos);
+  const randomDinos = randomizeDinos(dinos);
   generateTiles(you,randomDinos);
   removeForm();
 });

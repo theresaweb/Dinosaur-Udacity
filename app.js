@@ -140,15 +140,39 @@ function compareDiet( dino, human ) {
   }
   return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
 }
-
+function compareText(dino, human) {
+  let compareValue = Math.floor(Math.random() * 5);
+  let isPigeon = dino.species === 'Pigeon';
+  switch (compareValue) {
+    case 0:
+      compare = isPigeon ? pigeonFact() : compareWeight(dino,human);
+      break;
+    case 1:
+      compare = isPigeon ? pigeonFact() : compareHeight(dino,human);
+      break;
+    case 2:
+      compare = isPigeon ? pigeonFact() : compareDiet(dino,human);
+      break;
+    case 3:
+      compare = isPigeon ? pigeonFact() : `This species was found in ${dino.where}`;
+      break;
+    case 4:
+      compare = isPigeon ? pigeonFact() : `This species lived in the ${dino.when} era`;
+    case 5:
+      compare = isPigeon ? pigeonFact() : dino.fact;
+    default:
+      compare = isPigeon ? pigeonFact() : dino.fact;
+  }
+  return compare;
+}
 function pigeonFact() {
-  return document.createTextNode('All birds are dinosaurs.');
+  return 'All birds are dinosaurs.';
 }
 
 // Generate Tiles for each Dino in Array
 function generateTiles(human,dinos) {
-  console.log('dinos.length',dinos.length);
   for (let x = 0; x<=7; x++) {
+
     //create the child div
     let newTile = document.createElement("div");
     newTile.classList.add('grid-item');
@@ -166,29 +190,9 @@ function generateTiles(human,dinos) {
     //compare
     let compareContent = document.createElement("p");
     compareContent.classList.add('compare');
-    let compareValue = Math.floor(Math.random() * 5);
-    let compare = {};
-    let isPigeon = dinos[x].species === 'Pigeon';
-    switch (compareValue) {
-      case 0:
-        compare = isPigeon ? pigeonFact() : document.createTextNode(compareWeight(dinos[x],human));
-        break;
-      case 1:
-        compare = isPigeon ? pigeonFact() : document.createTextNode(compareHeight(dinos[x],human));
-        break;
-      case 2:
-        compare = isPigeon ? pigeonFact() : document.createTextNode(compareDiet(dinos[x],human));
-        break;
-      case 3:
-        compare = isPigeon ? pigeonFact() : document.createTextNode(`This species was found in ${dinos[x].where}`);
-        break;
-      case 4:
-        compare = isPigeon ? pigeonFact() : document.createTextNode(`This species lived in the ${dinos[x].when} era`);
-      case 5:
-        compare = isPigeon ? pigeonFact() : document.createTextNode(dinos[x].fact);
-      default:
-        compare = isPigeon ? pigeonFact() : document.createTextNode(dinos[x].fact);
-    }
+
+    let compare = document.createTextNode(compareText(dinos[x], human));
+
     compareContent.appendChild(compare);
     newTile.appendChild(img);
     outer.appendChild(newContent);

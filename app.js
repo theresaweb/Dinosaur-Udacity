@@ -140,7 +140,8 @@ function compareDiet( dino, human ) {
   }
   return `You eat diferently than the ${dino.species}, he is a ${dino.diet}`;
 }
-function compareText(dino, human) {
+
+function compareDisplay(dino, human) {
   let compareValue = Math.floor(Math.random() * 5);
   let isPigeon = dino.species === 'Pigeon';
   switch (compareValue) {
@@ -172,26 +173,27 @@ function pigeonFact() {
 // Generate Tiles for each Dino in Array
 function generateTiles(human,dinos) {
   for (let x = 0; x<=7; x++) {
+    let thisDino = new Dino( dinos[x].species, dinos[x].weight, dinos[x].height, dinos[x].diet, dinos[x].where, dinos[x].when, dinos[x].fact );
 
     //create the child div
     let newTile = document.createElement("div");
     newTile.classList.add('grid-item');
     //add the image
     let img = document.createElement('img');
-    img.setAttribute('src',`images/${dinos[x].species}.png`);
+    img.setAttribute('src',`images/${thisDino.species}.png`);
     // create the outer p
     let outer = document.createElement("p");
     outer.classList.add('outer');
     // create the inner p content
     let newContent = document.createElement("p");
     newContent.classList.add('species');
-    let content = document.createTextNode(dinos[x].species);
+    let content = document.createTextNode(thisDino.species);
     newContent.appendChild(content);
     //compare
     let compareContent = document.createElement("p");
     compareContent.classList.add('compare');
 
-    let compare = document.createTextNode(compareText(dinos[x], human));
+    let compare = document.createTextNode(compareDisplay(thisDino, human));
 
     compareContent.appendChild(compare);
     newTile.appendChild(img);

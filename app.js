@@ -84,10 +84,10 @@ const submit = document.querySelector('.showGrid');
 */
 function randomizeDinos(dinos) {
   for (i = dinos.length - 1; i > 0; i -= 1) {
-    j = Math.floor(Math.random() * (i + 1))
-    temp = dinos[i]
-    dinos[i] = dinos[j]
-    dinos[j] = temp
+    j = Math.floor(Math.random() * (i + 1));
+    temp = dinos[i];
+    dinos[i] = dinos[j];
+    dinos[j] = temp;
   }
   return dinos;
 }
@@ -116,7 +116,7 @@ function Human () {
     this.weight = 0;
     this.height = 0;
     this.diet = '';
-};
+}
 
 // Use IIFE to get human data from form
 const createHuman = function( you ) {

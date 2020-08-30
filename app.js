@@ -215,6 +215,7 @@ const generateTiles = ( human, dinos ) => {
     //add the image
     const img = document.createElement('img');
     img.setAttribute('src',`images/${thisDino.species}.png`);
+    img.setAttribute('alt',thisDino.species);
     // create the outer p
     const outer = document.createElement('p');
     outer.classList.add('outer');

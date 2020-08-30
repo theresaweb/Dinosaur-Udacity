@@ -237,7 +237,6 @@ function removeForm() {
 }
 
 // On button click, prepare and display infographic
-
 submit.addEventListener('click', event => {
   event.preventDefault();
   let you = new Human();
@@ -247,6 +246,7 @@ submit.addEventListener('click', event => {
   removeForm();
 });
 
+// click to refresh page
 refreshBtn.addEventListener('click', event => {
   location.reload();
 })

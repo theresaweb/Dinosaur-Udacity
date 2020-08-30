@@ -180,13 +180,14 @@ select {
     background-image: url(images/refresh-icon.png);
     background-size: 30px 30px;
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: 5px;
     background-color: white;
     width: 85px;
     border-radius: 10px;
     text-align: right;
     border: 1px solid greenyellow;
     font-family: 'Noto Serif', serif;
+    padding: 10px;
     display: none;
 }
 #btn.refresh:hover {

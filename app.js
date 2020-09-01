@@ -118,23 +118,6 @@ function Human () {
     this.diet = '';
 }
 
-// Use IIFE to get human data from form
-const createHuman = you => {
-  (function(you) {
-    const form = document.getElementById('dino-compare');
-    const data = new FormData(form);
-    const entries = Object.fromEntries(new FormData(form));
-    //validation
-    if (!(entries.name)|| !(entries.weight) || !(entries.feet) || !(entries.diet)) {
-      return false;
-    }
-    you.name = entries.name;
-    you.weight = parseInt(entries.weight);
-    you.height = parseInt(entries.feet) * 12 + parseInt(entries.inches);
-    you.diet = entries.diet;
-  })(you);
-}
-
 /**
 * @description Determines info to be shown
 * @param {object} dino
@@ -171,6 +154,7 @@ const cardInfo = ( dino, human ) => {
         return pigeonFact;
       }
       const compareValue = Math.floor(Math.random() * 5);
+      console.log('coparvalue',compareValue);
       switch (compareValue) {
         case 0:
           compare = compareWeight();
@@ -186,8 +170,10 @@ const cardInfo = ( dino, human ) => {
           break;
         case 4:
           compare = `This species lived in the ${dino.when} era`;
+          break;
         case 5:
           compare = dino.fact;
+          break;
         default:
           compare = dino.fact;
       }
@@ -312,13 +298,28 @@ const removeForm = () => {
 // On button click, prepare and display infographic
 submit.addEventListener('click', event => {
   event.preventDefault();
-  const you = new Human();
-  createHuman(you);
+
+  const you = (function() {
+    const human = new Human();
+    const form = document.getElementById('dino-compare');
+    const data = new FormData(form);
+    const entries = Object.fromEntries(new FormData(form));
+    //validation
+    if (!(entries.name)|| !(entries.weight) || !(entries.feet) || !(entries.diet)) {
+      return false;
+    }
+    human.name = entries.name;
+    human.weight = parseInt(entries.weight);
+    human.height = parseInt(entries.feet) * 12 + parseInt(entries.inches);
+    human.diet = entries.diet;
+
+    return human;
+  })();
+
   const randomDinos = randomizeDinos(dinos);
   generateTiles(you,randomDinos);
   removeForm();
 });
-
 // click to refresh page
 refreshBtn.addEventListener('click', event => {
   location.reload();
